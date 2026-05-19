@@ -14,29 +14,35 @@ interface IAddDeviceModalProps {
 export function AddDeviceModal({ onAdd, device }: IAddDeviceModalProps) {
     const [modalAberto, setModalAberto] = useState(false)
     const modalRef = useRef<HTMLDivElement | null>(null)
-    const [name, setName] = useState("");
-    const [id, setId] = useState("");
-    const [error, setError] = useState("")
+    const [deviceName, setDeviceName] = useState("");
+    const [location, setLocation] = useState("");
+    const [error, setError] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!name || !id) {
+        if (!location || !deviceName) {
             setError("Por favor, preencha todos os campos.");
             return;
         }
 
-        const idExists = device?.some(
-            d => d.id.trim().toLowerCase() === id.trim().toLowerCase()
+        const deviceNameExists = device?.some(
+            d => d.deviceName.toLowerCase() === deviceName.toLowerCase()
         );
 
-        if (idExists) {
-            setError("ID já existe. Por favor, escolha um ID único.");
+        if (deviceNameExists) {
+            setError("Nome do dispositivo já existe. Por favor, escolha um nome único.");
             return;
         }
 
+        const generatedId =
+    device && device.length > 0
+        ? Math.max(...device.map(d => d.id)) + 1
+        : 1;
+
         onAdd?.({
-            id,
-            name,
+            id: generatedId,
+            deviceName,
+            location,
             status: "online",
             connectionEnabled: true,
             relayLocked: false,
@@ -48,8 +54,8 @@ export function AddDeviceModal({ onAdd, device }: IAddDeviceModalProps) {
             }
         })
         setError("")
-        setName("")
-        setId("")
+        setLocation("")
+        setDeviceName("")
         setModalAberto(false)
     }
 
@@ -89,19 +95,19 @@ export function AddDeviceModal({ onAdd, device }: IAddDeviceModalProps) {
                             <div className="flex flex-col gap-4">
                                 <div>
                                     <Input
-                                        label="ID do Dispositivo"
-                                        placeholder={"IHM-006"}
-                                        value={id}
-                                        onChange={(e) => setId(e.target.value)} />
+                                        label="Nome do Dispositivo"
+                                        placeholder={"IHM"}
+                                        value={deviceName}
+                                        onChange={(e) => setDeviceName(e.target.value)} />
                                     {error && (
                                         <span className="text-red-500 text-xs">{error}</span>
                                     )}
                                 </div>
                                 <Input
-                                    label="Nome"
+                                    label="Localização"
                                     placeholder="Controlador Sala F"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)} />
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)} />
                             </div>
                             <Button type="submit" style="submit" name="Adicionar" />
                         </form>

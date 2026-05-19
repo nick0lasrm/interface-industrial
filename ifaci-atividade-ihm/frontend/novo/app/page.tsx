@@ -9,7 +9,7 @@ import { Device } from "./types/device"
 const index = () => {
   const [devices, setDevices] = useState<Device[]>([])
 
-  const toggleConnection = (id: string) => {
+  const toggleConnection = (id: number) => {
     setDevices((prev) =>
       prev.map((d) => {
         if (d.id !== id) return d;
@@ -27,7 +27,7 @@ const index = () => {
     );
   };
 
-  const toggleRelay = (id: string) => {
+  const toggleRelay = (id: number) => {
     setDevices(prev => prev.map(d => d.id === id ? { ...d, relayLocked: !d.relayLocked } : d))
   }
 
@@ -36,7 +36,7 @@ const index = () => {
     setDevices(prev => [...prev, { ...device, status }])
   }
 
-  const deleteDevice = (id: string) => {
+  const deleteDevice = (id: number) => {
     setDevices(prev => prev.filter(d => d.id !== id))
   }
 
@@ -51,7 +51,7 @@ const index = () => {
   }
 
   function getDeviceStatus(device: Device): Device["status"] {
-    const { temperature, pressure, humidity, presenceDetected } = device.sensors;
+    const { temperature, pressure} = device.sensors;
 
     const isAlert =
       temperature > 80 ||
@@ -81,7 +81,6 @@ const index = () => {
             <DeviceCard
               key={device.id}
               device={device}
-              status={device.status}
               onToggleConnection={toggleConnection}
               onToggleRelay={toggleRelay}
               onDelete={deleteDevice}

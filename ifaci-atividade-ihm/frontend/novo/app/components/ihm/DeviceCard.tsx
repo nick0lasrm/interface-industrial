@@ -13,10 +13,9 @@ import Input from "../ui/Input";
 
 interface DeviceCardProps {
     device: Device;
-    status: Device["status"];
-    onToggleConnection: (id: string) => void;
-    onToggleRelay: (id: string) => void;
-    onDelete: (id: string) => void;
+    onToggleConnection: (id: number) => void;
+    onToggleRelay: (id: number) => void;
+    onDelete: (id: number) => void;
     onUpdate: (device: Device) => void;
 }
 
@@ -61,7 +60,7 @@ export default function DeviceCard({
     };
 
     if (editing) {
-           return (
+        return (
             <div className="rounded-lg p-5 border border-[#22c38d56]  ">
                 <div className="flex items-center justify-between mb-4">
                     <span className="text-xs font-mono text-[#22C38E] uppercase tracking-wider">Editando dispositivo</span>
@@ -74,19 +73,27 @@ export default function DeviceCard({
                 </div>
 
                 <div className="space-y-3">
+
                     <div>
-                        <label className="text-[10px] uppercase text-[#819094] tracking-wider font-mono block">Nome</label>
+                        <label className="text-[10px] uppercase text-[#819094] tracking-wider font-mono block">Nome do Dispositivo</label>
                         <Input
-                            value={draft.name}
-                            onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
+                            type="text"
+                            value={draft.deviceName}
+                            onChange={(e) =>
+                                setDraft((d) => ({
+                                    ...d,
+                                    deviceName: e.target.value
+                                }))
+                            }
                             className="h-8 text-xs font-extralight font-mono text-white"
                         />
                     </div>
+
                     <div>
-                        <label className="text-[10px] uppercase text-[#819094] tracking-wider font-mono block">ID</label>
+                        <label className="text-[10px] uppercase text-[#819094] tracking-wider font-mono block">Localização</label>
                         <Input
-                            value={draft.id}
-                            onChange={(e) => setDraft((d) => ({ ...d, id: e.target.value }))}
+                            value={draft.location}
+                            onChange={(e) => setDraft((d) => ({ ...d, location: e.target.value }))}
                             className="h-8 text-xs font-extralight font-mono text-white"
                         />
                     </div>
@@ -151,8 +158,8 @@ export default function DeviceCard({
                 <div className="flex items-center gap-3">
                     <div className={statusInfo.dotClass} />
                     <div>
-                        <h3 className="text-sm font-semibold">{device.name}</h3>
-                        <span className="text-xs font-mono text-[#819094]">{device.id}</span>
+                        <h3 className="text-sm font-semibold">{device.location}</h3>
+                        <span className="text-xs font-mono text-[#819094]">{device.deviceName}-{String(device.id).padStart(2, "0")}</span>
                     </div>
                 </div>
 
