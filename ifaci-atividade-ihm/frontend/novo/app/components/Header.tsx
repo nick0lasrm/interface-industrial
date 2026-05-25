@@ -1,20 +1,14 @@
 import { Activity, Monitor} from "lucide-react"
-import { AddDeviceModal } from "./ihm/AddDeviceModal"
 import { Device } from "../types/device";
 
 interface IHeaderProps {
     onlineCount?: number;
     warningCount?: number;
     deviceCount?: number;
-    onAddDevice?: (device: Device) => void;
     devices?: Device[];
 }
 
-export default function Header({ onlineCount, warningCount, deviceCount, onAddDevice, devices }: IHeaderProps) {
-
-    const dotPulse = {
-        online: "w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"
-    }
+export default function Header({ onlineCount, warningCount, deviceCount}: IHeaderProps) {
 
     return (
         <div className="w-full border-b border-b-gray-600 px-6 py-4">
@@ -39,7 +33,6 @@ export default function Header({ onlineCount, warningCount, deviceCount, onAddDe
                         </span>
                     )}
                     <span className="font-mono text-xs text-[#6F7D85]">{deviceCount} dispositivos</span>
-                    <AddDeviceModal onAdd={onAddDevice} device={devices} />
                 </div>
             </div>
         </div>

@@ -11,30 +11,17 @@ const iot_data = []
 const devices = []
 let id = 0;
 
-
-//Rotas
-api.get('/usuarios', (req, res)=>{
-    let users = dados;
-
-    res.status(200).send(users)
-})
-
-
 //Rota de IOT
 api.get('/iot', (req, res)=>{
     let outputData = iot_data
-    
     res.status(200).send(outputData)
 })
-
-
 //Rota por sensor
 api.get('/sensor/:id', (req, res)=>{
     let sensor_data = iot_data[req.params.id]
 
     res.status(201).send(sensor_data)
 })
-
 
 api.get('/devices',(req, res)=>{
     let devices = devices;
@@ -70,7 +57,6 @@ api.post('/newData', (req, res)=>{
         }
     })
 
-
 api.put('/sensor/:id', (req,res)=>{
     const id = req.params.id
     const newBody = req.body
@@ -89,6 +75,7 @@ api.put('/sensor/:id', (req,res)=>{
         })
     }
 })
+
 
 
 const porta = 8080;
